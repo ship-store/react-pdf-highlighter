@@ -49,51 +49,26 @@ class Tip extends Component<Props, State> {
               this.setState({ compact: false });
             }}
           >
-            Add highlight
+            Mark Item(s)
           </div>
         ) : (
-          <form
-            className="Tip__card"
-            onSubmit={event => {
-              event.preventDefault();
-              onConfirm({ text, emoji });
-            }}
-          >
-            <div>
-              <textarea
-                width="100%"
-                placeholder="Your comment"
-                autoFocus
-                value={text}
-                onChange={event => this.setState({ text: event.target.value })}
-                ref={node => {
-                  if (node) {
-                    node.focus();
-                  }
-                }}
-              />
+            <form
+              className="Tip__card"
+              onSubmit={event => {
+                event.preventDefault();
+                onConfirm({ text, emoji });
+              }}
+            >
               <div>
-                {["💩", "😱", "😍", "🔥", "😳", "⚠️"].map(_emoji => (
-                  <label key={_emoji}>
-                    <input
-                      checked={emoji === _emoji}
-                      type="radio"
-                      name="emoji"
-                      value={_emoji}
-                      onChange={event =>
-                        this.setState({ emoji: event.target.value })
-                      }
-                    />
-                    {_emoji}
-                  </label>
-                ))}
+                <div style={{ color: "black" }}>
+                  Test
+                </div>
               </div>
-            </div>
-            <div>
-              <input type="submit" value="Save" />
-            </div>
-          </form>
-        )}
+              <div>
+                <input type="submit" value="Save" />
+              </div>
+            </form>
+          )}
       </div>
     );
   }

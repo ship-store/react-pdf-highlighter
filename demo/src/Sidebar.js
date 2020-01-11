@@ -18,18 +18,19 @@ function Sidebar({ highlights, resetHighlights }: Props) {
   return (
     <div className="sidebar" style={{ width: "25vw" }}>
       <div className="description" style={{ padding: "1rem" }}>
-        <h2 style={{ marginBottom: "1rem" }}>react-pdf-highlighter</h2>
+        <h2 style={{ marginBottom: "1rem" }}>
+          <a href="/home">SparesDox</a>
+        </h2>
 
         <p style={{ fontSize: "0.7rem" }}>
-          <a href="https://github.com/agentcooper/react-pdf-highlighter">
-            Open in GitHub
+          <a href="/home">
+            Back
           </a>
         </p>
 
         <p>
           <small>
-            To create area highlight hold ⌥ Option key (Alt), then click and
-            drag.
+            To create area highlight hold ⌥ Option key (Alt), then click and drag.
           </small>
         </p>
       </div>
@@ -66,7 +67,7 @@ function Sidebar({ highlights, resetHighlights }: Props) {
         ))}
       </ul>
       {highlights.length > 0 ? (
-        <div style={{ padding: "1rem" }}>
+        <div style={{ padding: "1rem", display: "none" }}>
           <a href="#" onClick={resetHighlights}>
             Reset highlights
           </a>
