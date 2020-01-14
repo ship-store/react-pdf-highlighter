@@ -45,7 +45,7 @@ const HighlightPopup = ({ comment }) =>
     </div>
   ) : null;
 
-const DEFAULT_URL = "https://arxiv.org/pdf/1708.08021.pdf";
+const DEFAULT_URL = (location.search || "?/601.112.103.pdf").substring(1);
 
 const searchParams = new URLSearchParams(location.search);
 const url = searchParams.get("url") || DEFAULT_URL;
@@ -60,10 +60,12 @@ class App extends Component<Props, State> {
   resetHighlights = () => {
     this.setState({
       highlights: []
+    }, () => {
+      this.syncState([]);
     });
   };
 
-  scrollViewerTo = (highlight: any) => {};
+  scrollViewerTo = (highlight: any) => { };
 
   scrollToHighlightFromHash = () => {
     const highlight = this.getHighlightById(parseIdFromHash());
@@ -87,6 +89,11 @@ class App extends Component<Props, State> {
     return highlights.find(highlight => highlight.id === id);
   }
 
+  syncState(highlights: any) {
+    testHighlights[url] = highlights;
+    localStorage["testHighlights"] = JSON.stringify(testHighlights);
+  }
+
   addHighlight(highlight: T_NewHighlight) {
     const { highlights } = this.state;
 
@@ -94,7 +101,23 @@ class App extends Component<Props, State> {
 
     this.setState({
       highlights: [{ ...highlight, id: getNextId() }, ...highlights]
+    }, () => {
+      this.syncState(this.state.highlights);
     });
+
+  }
+
+  removeHighlight(highlightId: string, position: Object, content: Object) {
+    console.log("Updating highlight", highlightId, position, content);
+
+    this.setState({
+      highlights: this.state.highlights.map(h => {
+        if (h.id !== highlightId) return h;
+      })
+    }, () => {
+      this.syncState(this.state.highlights);
+    });
+
   }
 
   updateHighlight(highlightId: string, position: Object, content: Object) {
@@ -104,13 +127,16 @@ class App extends Component<Props, State> {
       highlights: this.state.highlights.map(h => {
         return h.id === highlightId
           ? {
-              ...h,
-              position: { ...h.position, ...position },
-              content: { ...h.content, ...content }
-            }
+            ...h,
+            position: { ...h.position, ...position },
+            content: { ...h.content, ...content }
+          }
           : h;
       })
+    }, () => {
+      this.syncState(this.state.highlights);
     });
+
   }
 
   render() {
@@ -147,15 +173,17 @@ class App extends Component<Props, State> {
                   hideTipAndSelection,
                   transformSelection
                 ) => (
-                  <Tip
-                    onOpen={transformSelection}
-                    onConfirm={comment => {
-                      this.addHighlight({ content, position, comment });
+                    <Tip
+                      onOpen={transformSelection => {
+                        console.log(this);
+                      }}
+                      onConfirm={comment => {
+                        this.addHighlight({ content, position, comment });
 
-                      hideTipAndSelection();
-                    }}
-                  />
-                )}
+                        hideTipAndSelection();
+                      }}
+                    />
+                  )}
                 highlightTransform={(
                   highlight,
                   index,
@@ -176,17 +204,17 @@ class App extends Component<Props, State> {
                       comment={highlight.comment}
                     />
                   ) : (
-                    <AreaHighlight
-                      highlight={highlight}
-                      onChange={boundingRect => {
-                        this.updateHighlight(
-                          highlight.id,
-                          { boundingRect: viewportToScaled(boundingRect) },
-                          { image: screenshot(boundingRect) }
-                        );
-                      }}
-                    />
-                  );
+                      <AreaHighlight
+                        highlight={highlight}
+                        onChange={boundingRect => {
+                          this.updateHighlight(
+                            highlight.id,
+                            { boundingRect: viewportToScaled(boundingRect) },
+                            { image: screenshot(boundingRect) }
+                          );
+                        }}
+                      />
+                    );
 
                   return (
                     <Popup

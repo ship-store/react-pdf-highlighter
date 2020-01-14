@@ -3,11 +3,13 @@
 import React, { Component } from "react";
 
 import "../style/Tip.css";
+import testHighlights from "../../demo/src/test-highlights";
 
 type State = {
   compact: boolean,
   text: string,
-  emoji: string
+  emoji: string,
+  itemNo: string
 };
 
 type Props = {
@@ -19,6 +21,7 @@ type Props = {
 class Tip extends Component<Props, State> {
   state = {
     compact: true,
+    itemNo: 0,
     text: "",
     emoji: ""
   };
@@ -37,7 +40,7 @@ class Tip extends Component<Props, State> {
 
   render() {
     const { onConfirm, onOpen } = this.props;
-    const { compact, text, emoji } = this.state;
+    const { compact, text, emoji, itemNo } = this.state;
 
     return (
       <div className="Tip">
@@ -46,7 +49,8 @@ class Tip extends Component<Props, State> {
             className="Tip__compact"
             onClick={() => {
               onOpen();
-              this.setState({ compact: false });
+              var lastFileIndex = parseInt(localStorage.getItem("lastFileIndex") || 0) + 1;
+              this.setState({ compact: false, text: "0000-0000-0000-" + lastFileIndex.toString().padStart(4, 0), itemNo: lastFileIndex });
             }}
           >
             Mark Item(s)
@@ -57,11 +61,12 @@ class Tip extends Component<Props, State> {
               onSubmit={event => {
                 event.preventDefault();
                 onConfirm({ text, emoji });
+                localStorage["lastFileIndex"] = itemNo;
               }}
             >
               <div>
-                <div style={{ color: "black" }}>
-                  Test
+                <div>
+                  {text}
                 </div>
               </div>
               <div>

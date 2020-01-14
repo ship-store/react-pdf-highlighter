@@ -19,7 +19,7 @@ function Sidebar({ highlights, resetHighlights }: Props) {
     <div className="sidebar" style={{ width: "25vw" }}>
       <div className="description" style={{ padding: "1rem" }}>
         <h2 style={{ marginBottom: "1rem" }}>
-          <a href="/home">SparesDox</a>
+          <a href="/home">SpareDox</a>
         </h2>
 
         <p style={{ fontSize: "0.7rem" }}>
@@ -61,15 +61,16 @@ function Sidebar({ highlights, resetHighlights }: Props) {
               ) : null}
             </div>
             <div className="highlight__location">
-              Page {highlight.position.pageNumber}
+              {/* Page {highlight.position.pageNumber} */}
+              <a href="#" >Add to cart</a>
             </div>
           </li>
         ))}
       </ul>
       {highlights.length > 0 ? (
-        <div style={{ padding: "1rem", display: "none" }}>
+        <div style={{ padding: "1rem" }}>
           <a href="#" onClick={resetHighlights}>
-            Reset highlights
+            Reset Marked items
           </a>
         </div>
       ) : null}
