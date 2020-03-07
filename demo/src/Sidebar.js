@@ -16,7 +16,7 @@ const updateHash = highlight => {
 
 function Sidebar({ highlights, resetHighlights }: Props) {
   return (
-    <div className="sidebar" style={{ width: "25vw" }}>
+    <div className="sidebar" style={{ width: "25vw", display: "none" }}>
       <div className="description" style={{ padding: "1rem" }}>
         <h2 style={{ marginBottom: "1rem" }}>
           <a href="/home">SpareDox</a>
@@ -30,7 +30,13 @@ function Sidebar({ highlights, resetHighlights }: Props) {
 
         <p>
           <small>
-            To create area highlight hold ⌥ Option key (Alt), then click and drag.
+            To create area highlight hold Option key (Alt), then click and drag.
+          </small>
+        </p>
+
+        <p>
+          <small>
+            <input type="file" />
           </small>
         </p>
       </div>

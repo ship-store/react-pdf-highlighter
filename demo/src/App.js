@@ -38,6 +38,14 @@ const resetHash = () => {
   location.hash = "";
 };
 
+const copyTextToClipboard = (text) => {
+  var $temp = $("<input>");
+  $("body").append($temp);
+  $temp.val(text).select();
+  document.execCommand("copy");
+  $temp.remove();
+}
+
 const HighlightPopup = ({ comment }) =>
   comment.text ? (
     <div className="Highlight__popup">
@@ -150,9 +158,9 @@ class App extends Component<Props, State> {
         />
         <div
           style={{
-            height: "100vh",
-            width: "75vw",
-            overflowY: "scroll",
+            height: "auto",
+            width: "100%",
+            overflowY: "auto",
             position: "relative"
           }}
         >
@@ -178,7 +186,9 @@ class App extends Component<Props, State> {
                         console.log(this);
                       }}
                       onConfirm={comment => {
-                        this.addHighlight({ content, position, comment });
+                        //this.addHighlight({ content, position, comment });
+                        copyTextToClipboard(content.text);
+                        window.parent.postMessage(content.text, '*');
 
                         hideTipAndSelection();
                       }}

@@ -41,27 +41,28 @@ class Tip extends Component<Props, State> {
   render() {
     const { onConfirm, onOpen } = this.props;
     const { compact, text, emoji, itemNo } = this.state;
-
+    onConfirm({ text, emoji });
     return (
       <div className="Tip">
         {compact ? (
           <div
             className="Tip__compact"
-            onClick={() => {
-              onOpen();
-              var lastFileIndex = parseInt(localStorage.getItem("lastFileIndex") || 0) + 1;
-              this.setState({ compact: false, text: "0000-0000-0000-" + lastFileIndex.toString().padStart(4, 0), itemNo: lastFileIndex });
+            onClick={(event) => {
+              //console.log(event);
+              //onConfirm({ text, emoji });
+              // onOpen();
+              // var lastFileIndex = parseInt(localStorage.getItem("lastFileIndex") || 0) + 1;
+              // this.setState({ compact: false, text: "0000-0000-0000-" + lastFileIndex.toString().padStart(4, 0), itemNo: lastFileIndex });
             }}
           >
-            Mark Item(s)
+            Copy
           </div>
         ) : (
             <form
               className="Tip__card"
               onSubmit={event => {
                 event.preventDefault();
-                onConfirm({ text, emoji });
-                localStorage["lastFileIndex"] = itemNo;
+                // localStorage["lastFileIndex"] = itemNo;
               }}
             >
               <div>
