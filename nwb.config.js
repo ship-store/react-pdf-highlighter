@@ -6,5 +6,10 @@ module.exports = {
   npm: {
     esModules: false,
     umd: false
+  },
+  webpack: {
+    html: {
+      template: 'demo/src/index.html'
+    }
   }
 };
